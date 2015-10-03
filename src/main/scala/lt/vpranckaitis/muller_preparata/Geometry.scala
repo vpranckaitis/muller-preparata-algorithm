@@ -1,7 +1,7 @@
 package lt.vpranckaitis.muller_preparata
 
 import java.awt.Shape
-import java.awt.geom.{Line2D, Rectangle2D}
+import java.awt.geom.{Ellipse2D, Line2D, Rectangle2D}
 
 object Geometry {
 
@@ -33,7 +33,10 @@ object Geometry {
     case l: Line => line2Shape(l)
   }
 
-  implicit def point2Shape(p: Point): Shape = new Rectangle2D.Double(p.x, p.y, 1, 1)
+  private val PointSize = 4
+
+  implicit def point2Shape(p: Point): Shape =
+    new Ellipse2D.Double(p.x - PointSize / 2, p.y - PointSize / 2, PointSize, PointSize)
 
   implicit def line2Shape(l: Line): Shape = new Line2D.Double(l.p1.x, l.p1.y, l.p2.x, l.p2.y)
 }
