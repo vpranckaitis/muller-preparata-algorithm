@@ -28,14 +28,14 @@ object Main extends SimpleSwingApplication  {
 
       Seq(
         polygons zip Blacks,
-        (polygons zip Colours),
+        polygons zip Colours,
         (polygons zip Colours) ++ (dualPoints zip Colours),
-        (dualPoints zip Colours),
+        dualPoints zip Colours,
         (dualPointsConvexHull zip Blues) ++ (dualPoints zip Colours),
         dualPointsConvexHull zip Blues,
         dualPointsConvexHull zip Colours,
         (dualPointsConvexHull zip Colours) ++ (undualPoints zip Colours),
-        (undualPoints zip Colours),
+        undualPoints zip Colours,
         (polygons zip Blacks) ++ (undualPoints zip Colours),
         (polygons zip Blacks) ++ (intersection zip Blues) ++ (undualPoints zip Colours),
         (polygons zip Blacks) ++ (intersection zip Blues)
@@ -54,7 +54,6 @@ object Main extends SimpleSwingApplication  {
         val width = g.getClipBounds.width
         val height = g.getClipBounds.height
         val scale = 100
-        //g.scale(10, 10)
         g.translate(width / 2, height / 2)
 
         g.setColor(Color.GRAY)
