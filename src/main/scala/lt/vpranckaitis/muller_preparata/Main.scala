@@ -1,18 +1,12 @@
 package lt.vpranckaitis.muller_preparata
 
-import java.awt.Color
-import java.awt.Dimension
-import java.awt.Graphics2D
-import java.awt._
-import java.awt.geom._
-import Geometry._
-import Process._
-import Geometry.Point
+import java.awt.{Color, Dimension, Graphics2D, _}
+
+import lt.vpranckaitis.muller_preparata.Geometry.{Point, _}
+import lt.vpranckaitis.muller_preparata.Process._
 
 import scala.swing.BorderPanel.Position
-import scala.swing.Button
-import scala.swing.Panel
-import scala.swing._
+import scala.swing.{Button, Panel, _}
 import scala.swing.event._
 
 object Main extends SimpleSwingApplication  {
@@ -60,16 +54,23 @@ object Main extends SimpleSwingApplication  {
       override def paint(g: Graphics2D): Unit = {
         g.setColor(Color.WHITE)
         g.fill(g.getClip)
-
         val width = g.getClipBounds.width
         val height = g.getClipBounds.height
         val scale = 100
         //g.scale(10, 10)
         g.translate(width / 2, height / 2)
 
+        g.setColor(Color.GRAY)
+        g.draw(Point(-width/2, 0).lineTo(Point(width/2, 0)))
+        g.draw(Point(0, -height/2).lineTo(Point(0, height/2)))
+        g.draw(Point(1, -0.1).lineTo(Point(1, 0.1)) * scale)
+        g.draw(Point(-1, -0.1).lineTo(Point(-1, 0.1)) * scale)
+        g.draw(Point(-0.1, 1).lineTo(Point(0.1, 1)) * scale)
+        g.draw(Point(-0.1, -1).lineTo(Point(0.1, -1)) * scale)
+
+        g.setStroke(new BasicStroke(3))
         for ((figure, color) <- steps(step)) {
           g.setColor(color)
-          g.setStroke(new BasicStroke(3))
           g.draw(figure * scale)
         }
 
