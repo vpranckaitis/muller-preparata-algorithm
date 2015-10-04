@@ -1,6 +1,6 @@
 package lt.vpranckaitis.muller_preparata
 
-import Geometry._
+import lt.vpranckaitis.muller_preparata.Geometry._
 
 import scala.io.Source
 
@@ -67,21 +67,20 @@ object Process {
     bottom ++ top.tail.reverse.tail
   }
 
-  def process = {
-    val (pn, pm) = read("input.txt")
+  def mullerPreparata() = {
+    val (pn, pm) = Process.read("input.txt")
+    val polygons: Seq[Line] = polygon(pn) ++ polygon(pm)
+    val dualPoints: Seq[Point] = polygons map transform
+    val dualPointsConvexHull = polygon(convexHull(dualPoints.toVector))
+    val undualPoints = dualPointsConvexHull map transform
+    val intersection = polygon(undualPoints)
 
-    (for ((p1, p2) <- pn zip (pn.tail :+ pn.head)) yield {
-      transform(p1, p2)
-    }) ++ (for ((p1, p2) <- pm zip (pm.tail :+ pm.head)) yield {
-      transform(p1, p2)
-    })
-
-    val ch = convexHull(pn.toVector ++ pm.toVector)
-
-    println(ch mkString)
-
-    (for ((p1, p2) <- ch zip (ch.tail :+ ch.head)) yield {
-      new Line(p1, p2)
-    })
+    AlgorithmData(polygons, dualPoints, dualPointsConvexHull, undualPoints, intersection)
   }
+
+  case class AlgorithmData(polygons: Seq[Line],
+                           dualPoints: Seq[Point],
+                           dualPointsConvexHull: Seq[Line],
+                           undualPoints: Seq[Point],
+                           intersection: Seq[Line])
 }

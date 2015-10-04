@@ -6,12 +6,12 @@ import lt.vpranckaitis.muller_preparata.Geometry.{Point, _}
 import lt.vpranckaitis.muller_preparata.Process._
 
 import scala.swing.BorderPanel.Position
-import scala.swing.{Button, Panel, _}
 import scala.swing.event._
+import scala.swing.{Button, Panel, _}
 
 object Main extends SimpleSwingApplication  {
   def top = new MainFrame() {
-    title = "SwingApp"
+    title = "Muller-Preparata"
     size = new Dimension(500, 500)
 
     val Blacks = Seq.fill(50)(Color.BLACK)
@@ -22,12 +22,9 @@ object Main extends SimpleSwingApplication  {
 
 
     val steps: Seq[Seq[(Figure, Color)]] = {
-      val (pn, pm) = Process.read("input.txt")
-      val polygons: Seq[Line] = polygon(pn) ++ polygon(pm)
-      val dualPoints: Seq[Point] = polygons map transform
-      val dualPointsConvexHull = polygon(convexHull(dualPoints.toVector))
-      val undualPoints = dualPointsConvexHull map transform
-      val intersection = polygon(undualPoints)
+      val data = mullerPreparata()
+
+      import data._
 
       Seq(
         polygons zip Blacks,
